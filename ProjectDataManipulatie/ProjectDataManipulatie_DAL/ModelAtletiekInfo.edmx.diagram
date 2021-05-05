@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1066057422474095a9e6b19c350afb47" Name="Diagram1" ZoomLevel="88">
+        <EntityTypeShape EntityType="AtletiekInfoModel.Categorie" Width="1.5" PointX="0.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtletiekInfoModel.Club" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtletiekInfoModel.Persoon" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtletiekInfoModel.PersoonClub" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtletiekInfoModel.Proef" Width="1.5" PointX="0.75" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtletiekInfoModel.ProefCategorie" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtletiekInfoModel.Resultaat" Width="1.5" PointX="9" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtletiekInfoModel.WedstijdProef" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtletiekInfoModel.Wedstrijd" Width="1.5" PointX="2.625" PointY="8.5" IsExpanded="true" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_ProefCategorieCategorie" ManuallyRouted="false" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_PersoonClubClubId" ManuallyRouted="false" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_WedstrijdClub" ManuallyRouted="false" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_PersoonClubPersoonId" ManuallyRouted="false" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_ResultaatPersoon" ManuallyRouted="false" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_ProefCategorieProef" ManuallyRouted="false" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_WedstrijdProefProefCategorie" ManuallyRouted="false" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_ResultaatWijdstrijdProefId" ManuallyRouted="false" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_WedstrijdProefWedstrijd" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

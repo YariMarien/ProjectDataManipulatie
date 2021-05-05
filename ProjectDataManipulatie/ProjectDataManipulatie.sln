@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectDataManipulatie_WPF", "ProjectDataManipulatie_WPF\ProjectDataManipulatie_WPF.csproj", "{DF7585BA-0407-421D-9074-E925E780E870}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectDataManipulatie_DAL", "ProjectDataManipulatie_DAL\ProjectDataManipulatie_DAL.csproj", "{3F290734-230E-49E4-A5E7-59E61C08B0AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF7585BA-0407-421D-9074-E925E780E870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF7585BA-0407-421D-9074-E925E780E870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF7585BA-0407-421D-9074-E925E780E870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF7585BA-0407-421D-9074-E925E780E870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F290734-230E-49E4-A5E7-59E61C08B0AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F290734-230E-49E4-A5E7-59E61C08B0AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F290734-230E-49E4-A5E7-59E61C08B0AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F290734-230E-49E4-A5E7-59E61C08B0AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57A10847-96E7-4A23-BB22-431E0B825F71}
+	EndGlobalSection
+EndGlobal

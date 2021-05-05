@@ -1,0 +1,650 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AtletiekInfoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblCategorie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="naam" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="leeftijdBegin" Type="int" Nullable="false" />
+          <Property Name="leeftijdEinde" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblClub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="naam" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="website" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="provincie" Type="varchar" MaxLength="50" />
+          <Property Name="Locatie" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblPersoon">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="naam" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="voornaam" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="geslacht" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="geboorteDatum" Type="date" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblPersoonClub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="persoonId" Type="int" Nullable="false" />
+          <Property Name="borstNummer" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="begin" Type="date" Nullable="false" />
+          <Property Name="eind" Type="date" />
+          <Property Name="clubId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProef">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="naam" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProefCategorie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="proefId" Type="int" Nullable="false" />
+          <Property Name="categorieId" Type="int" Nullable="false" />
+          <Property Name="geslacht" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="info" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblResultaat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="wedstrijdProefId" Type="int" Nullable="false" />
+          <Property Name="persoonId" Type="int" Nullable="false" />
+          <Property Name="plaats" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="prestatie" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="wind" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblWedstijdProef">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="proefCategorieId" Type="int" Nullable="false" />
+          <Property Name="wedsrijdId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblWedstrijd">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="clubId" Type="int" Nullable="false" />
+          <Property Name="datum" Type="date" Nullable="false" />
+          <Property Name="naam" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="plaats" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_PersoonClubClubId">
+          <End Role="tblClub" Type="Self.tblClub" Multiplicity="1" />
+          <End Role="tblPersoonClub" Type="Self.tblPersoonClub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblClub">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblPersoonClub">
+              <PropertyRef Name="clubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersoonClubPersoonId">
+          <End Role="tblPersoon" Type="Self.tblPersoon" Multiplicity="1" />
+          <End Role="tblPersoonClub" Type="Self.tblPersoonClub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPersoon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblPersoonClub">
+              <PropertyRef Name="persoonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProefCategorieCategorie">
+          <End Role="tblCategorie" Type="Self.tblCategorie" Multiplicity="1" />
+          <End Role="tblProefCategorie" Type="Self.tblProefCategorie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCategorie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblProefCategorie">
+              <PropertyRef Name="categorieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProefCategorieProef">
+          <End Role="tblProef" Type="Self.tblProef" Multiplicity="1" />
+          <End Role="tblProefCategorie" Type="Self.tblProefCategorie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProef">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblProefCategorie">
+              <PropertyRef Name="proefId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResultaatPersoon">
+          <End Role="tblPersoon" Type="Self.tblPersoon" Multiplicity="1" />
+          <End Role="tblResultaat" Type="Self.tblResultaat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPersoon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblResultaat">
+              <PropertyRef Name="persoonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResultaatWijdstrijdProefId">
+          <End Role="tblWedstijdProef" Type="Self.tblWedstijdProef" Multiplicity="1" />
+          <End Role="tblResultaat" Type="Self.tblResultaat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblWedstijdProef">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblResultaat">
+              <PropertyRef Name="wedstrijdProefId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WedstrijdClub">
+          <End Role="tblClub" Type="Self.tblClub" Multiplicity="1" />
+          <End Role="tblWedstrijd" Type="Self.tblWedstrijd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblClub">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblWedstrijd">
+              <PropertyRef Name="clubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WedstrijdProefProefCategorie">
+          <End Role="tblProefCategorie" Type="Self.tblProefCategorie" Multiplicity="1" />
+          <End Role="tblWedstijdProef" Type="Self.tblWedstijdProef" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProefCategorie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblWedstijdProef">
+              <PropertyRef Name="proefCategorieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WedstrijdProefWedstrijd">
+          <End Role="tblWedstrijd" Type="Self.tblWedstrijd" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblWedstijdProef" Type="Self.tblWedstijdProef" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblWedstrijd">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblWedstijdProef">
+              <PropertyRef Name="wedsrijdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AtletiekInfoModelStoreContainer">
+          <EntitySet Name="tblCategorie" EntityType="Self.tblCategorie" Schema="AtletiekInfo" store:Type="Tables" />
+          <EntitySet Name="tblClub" EntityType="Self.tblClub" Schema="AtletiekInfo" store:Type="Tables" />
+          <EntitySet Name="tblPersoon" EntityType="Self.tblPersoon" Schema="AtletiekInfo" store:Type="Tables" />
+          <EntitySet Name="tblPersoonClub" EntityType="Self.tblPersoonClub" Schema="AtletiekInfo" store:Type="Tables" />
+          <EntitySet Name="tblProef" EntityType="Self.tblProef" Schema="AtletiekInfo" store:Type="Tables" />
+          <EntitySet Name="tblProefCategorie" EntityType="Self.tblProefCategorie" Schema="AtletiekInfo" store:Type="Tables" />
+          <EntitySet Name="tblResultaat" EntityType="Self.tblResultaat" Schema="AtletiekInfo" store:Type="Tables" />
+          <EntitySet Name="tblWedstijdProef" EntityType="Self.tblWedstijdProef" Schema="AtletiekInfo" store:Type="Tables" />
+          <EntitySet Name="tblWedstrijd" EntityType="Self.tblWedstrijd" Schema="AtletiekInfo" store:Type="Tables" />
+          <AssociationSet Name="FK_PersoonClubClubId" Association="Self.FK_PersoonClubClubId">
+            <End Role="tblClub" EntitySet="tblClub" />
+            <End Role="tblPersoonClub" EntitySet="tblPersoonClub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersoonClubPersoonId" Association="Self.FK_PersoonClubPersoonId">
+            <End Role="tblPersoon" EntitySet="tblPersoon" />
+            <End Role="tblPersoonClub" EntitySet="tblPersoonClub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProefCategorieCategorie" Association="Self.FK_ProefCategorieCategorie">
+            <End Role="tblCategorie" EntitySet="tblCategorie" />
+            <End Role="tblProefCategorie" EntitySet="tblProefCategorie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProefCategorieProef" Association="Self.FK_ProefCategorieProef">
+            <End Role="tblProef" EntitySet="tblProef" />
+            <End Role="tblProefCategorie" EntitySet="tblProefCategorie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResultaatPersoon" Association="Self.FK_ResultaatPersoon">
+            <End Role="tblPersoon" EntitySet="tblPersoon" />
+            <End Role="tblResultaat" EntitySet="tblResultaat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResultaatWijdstrijdProefId" Association="Self.FK_ResultaatWijdstrijdProefId">
+            <End Role="tblWedstijdProef" EntitySet="tblWedstijdProef" />
+            <End Role="tblResultaat" EntitySet="tblResultaat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WedstrijdClub" Association="Self.FK_WedstrijdClub">
+            <End Role="tblClub" EntitySet="tblClub" />
+            <End Role="tblWedstrijd" EntitySet="tblWedstrijd" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WedstrijdProefProefCategorie" Association="Self.FK_WedstrijdProefProefCategorie">
+            <End Role="tblProefCategorie" EntitySet="tblProefCategorie" />
+            <End Role="tblWedstijdProef" EntitySet="tblWedstijdProef" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WedstrijdProefWedstrijd" Association="Self.FK_WedstrijdProefWedstrijd">
+            <End Role="tblWedstrijd" EntitySet="tblWedstrijd" />
+            <End Role="tblWedstijdProef" EntitySet="tblWedstijdProef" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AtletiekInfoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Categorie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="naam" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="leeftijdBegin" Type="Int32" Nullable="false" />
+          <Property Name="leeftijdEinde" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProefCategorie" Relationship="Self.FK_ProefCategorieCategorie" FromRole="tblCategorie" ToRole="tblProefCategorie" />
+        </EntityType>
+        <EntityType Name="Club">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="naam" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="website" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="provincie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Locatie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Personen" Relationship="Self.FK_PersoonClubClubId" FromRole="tblClub" ToRole="tblPersoonClub" />
+          <NavigationProperty Name="Wedstrijden" Relationship="Self.FK_WedstrijdClub" FromRole="tblClub" ToRole="tblWedstrijd" />
+        </EntityType>
+        <EntityType Name="Persoon">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="naam" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="voornaam" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="geslacht" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="geboorteDatum" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PersoonClub" Relationship="Self.FK_PersoonClubPersoonId" FromRole="tblPersoon" ToRole="tblPersoonClub" />
+          <NavigationProperty Name="Resultaten" Relationship="Self.FK_ResultaatPersoon" FromRole="tblPersoon" ToRole="tblResultaat" />
+        </EntityType>
+        <EntityType Name="PersoonClub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="persoonId" Type="Int32" Nullable="false" />
+          <Property Name="borstNummer" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="begin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="eind" Type="DateTime" Precision="0" />
+          <Property Name="clubId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Club" Relationship="Self.FK_PersoonClubClubId" FromRole="tblPersoonClub" ToRole="tblClub" />
+          <NavigationProperty Name="Persoon" Relationship="Self.FK_PersoonClubPersoonId" FromRole="tblPersoonClub" ToRole="tblPersoon" />
+        </EntityType>
+        <EntityType Name="Proef">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="naam" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ProefCategorie" Relationship="Self.FK_ProefCategorieProef" FromRole="tblProef" ToRole="tblProefCategorie" />
+        </EntityType>
+        <EntityType Name="ProefCategorie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="proefId" Type="Int32" Nullable="false" />
+          <Property Name="categorieId" Type="Int32" Nullable="false" />
+          <Property Name="geslacht" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="info" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Categorie" Relationship="Self.FK_ProefCategorieCategorie" FromRole="tblProefCategorie" ToRole="tblCategorie" />
+          <NavigationProperty Name="Proef" Relationship="Self.FK_ProefCategorieProef" FromRole="tblProefCategorie" ToRole="tblProef" />
+          <NavigationProperty Name="WedstijdProef" Relationship="Self.FK_WedstrijdProefProefCategorie" FromRole="tblProefCategorie" ToRole="tblWedstijdProef" />
+        </EntityType>
+        <EntityType Name="Resultaat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="wedstrijdProefId" Type="Int32" Nullable="false" />
+          <Property Name="persoonId" Type="Int32" Nullable="false" />
+          <Property Name="plaats" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="prestatie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="wind" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Persoon" Relationship="Self.FK_ResultaatPersoon" FromRole="tblResultaat" ToRole="tblPersoon" />
+          <NavigationProperty Name="WedstijdProef" Relationship="Self.FK_ResultaatWijdstrijdProefId" FromRole="tblResultaat" ToRole="tblWedstijdProef" />
+        </EntityType>
+        <EntityType Name="WedstijdProef">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="proefCategorieId" Type="Int32" Nullable="false" />
+          <Property Name="wedsrijdId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProefCategorie" Relationship="Self.FK_WedstrijdProefProefCategorie" FromRole="tblWedstijdProef" ToRole="tblProefCategorie" />
+          <NavigationProperty Name="Resultaten" Relationship="Self.FK_ResultaatWijdstrijdProefId" FromRole="tblWedstijdProef" ToRole="tblResultaat" />
+          <NavigationProperty Name="Wedstrijd" Relationship="Self.FK_WedstrijdProefWedstrijd" FromRole="tblWedstijdProef" ToRole="tblWedstrijd" />
+        </EntityType>
+        <EntityType Name="Wedstrijd">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="clubId" Type="Int32" Nullable="false" />
+          <Property Name="datum" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="naam" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="plaats" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Club" Relationship="Self.FK_WedstrijdClub" FromRole="tblWedstrijd" ToRole="tblClub" />
+          <NavigationProperty Name="WedstijdProeven" Relationship="Self.FK_WedstrijdProefWedstrijd" FromRole="tblWedstrijd" ToRole="tblWedstijdProef" />
+        </EntityType>
+        <Association Name="FK_ProefCategorieCategorie">
+          <End Role="tblCategorie" Type="AtletiekInfoModel.Categorie" Multiplicity="1" />
+          <End Role="tblProefCategorie" Type="AtletiekInfoModel.ProefCategorie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCategorie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblProefCategorie">
+              <PropertyRef Name="categorieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersoonClubClubId">
+          <End Role="tblClub" Type="AtletiekInfoModel.Club" Multiplicity="1" />
+          <End Role="tblPersoonClub" Type="AtletiekInfoModel.PersoonClub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblClub">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblPersoonClub">
+              <PropertyRef Name="clubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WedstrijdClub">
+          <End Role="tblClub" Type="AtletiekInfoModel.Club" Multiplicity="1" />
+          <End Role="tblWedstrijd" Type="AtletiekInfoModel.Wedstrijd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblClub">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblWedstrijd">
+              <PropertyRef Name="clubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersoonClubPersoonId">
+          <End Role="tblPersoon" Type="AtletiekInfoModel.Persoon" Multiplicity="1" />
+          <End Role="tblPersoonClub" Type="AtletiekInfoModel.PersoonClub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPersoon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblPersoonClub">
+              <PropertyRef Name="persoonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResultaatPersoon">
+          <End Role="tblPersoon" Type="AtletiekInfoModel.Persoon" Multiplicity="1" />
+          <End Role="tblResultaat" Type="AtletiekInfoModel.Resultaat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPersoon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblResultaat">
+              <PropertyRef Name="persoonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProefCategorieProef">
+          <End Role="tblProef" Type="AtletiekInfoModel.Proef" Multiplicity="1" />
+          <End Role="tblProefCategorie" Type="AtletiekInfoModel.ProefCategorie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProef">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblProefCategorie">
+              <PropertyRef Name="proefId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WedstrijdProefProefCategorie">
+          <End Role="tblProefCategorie" Type="AtletiekInfoModel.ProefCategorie" Multiplicity="1" />
+          <End Role="tblWedstijdProef" Type="AtletiekInfoModel.WedstijdProef" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProefCategorie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblWedstijdProef">
+              <PropertyRef Name="proefCategorieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResultaatWijdstrijdProefId">
+          <End Role="tblWedstijdProef" Type="AtletiekInfoModel.WedstijdProef" Multiplicity="1" />
+          <End Role="tblResultaat" Type="AtletiekInfoModel.Resultaat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblWedstijdProef">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblResultaat">
+              <PropertyRef Name="wedstrijdProefId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WedstrijdProefWedstrijd">
+          <End Role="tblWedstrijd" Type="AtletiekInfoModel.Wedstrijd" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblWedstijdProef" Type="AtletiekInfoModel.WedstijdProef" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblWedstrijd">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblWedstijdProef">
+              <PropertyRef Name="wedsrijdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AtletiekInfoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblCategorie" EntityType="AtletiekInfoModel.Categorie" />
+          <EntitySet Name="tblClub" EntityType="AtletiekInfoModel.Club" />
+          <EntitySet Name="tblPersoon" EntityType="AtletiekInfoModel.Persoon" />
+          <EntitySet Name="tblPersoonClub" EntityType="AtletiekInfoModel.PersoonClub" />
+          <EntitySet Name="tblProef" EntityType="AtletiekInfoModel.Proef" />
+          <EntitySet Name="tblProefCategorie" EntityType="AtletiekInfoModel.ProefCategorie" />
+          <EntitySet Name="tblResultaat" EntityType="AtletiekInfoModel.Resultaat" />
+          <EntitySet Name="tblWedstijdProef" EntityType="AtletiekInfoModel.WedstijdProef" />
+          <EntitySet Name="tblWedstrijd" EntityType="AtletiekInfoModel.Wedstrijd" />
+          <AssociationSet Name="FK_ProefCategorieCategorie" Association="Self.FK_ProefCategorieCategorie">
+            <End Role="tblCategorie" EntitySet="tblCategorie" />
+            <End Role="tblProefCategorie" EntitySet="tblProefCategorie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersoonClubClubId" Association="Self.FK_PersoonClubClubId">
+            <End Role="tblClub" EntitySet="tblClub" />
+            <End Role="tblPersoonClub" EntitySet="tblPersoonClub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WedstrijdClub" Association="Self.FK_WedstrijdClub">
+            <End Role="tblClub" EntitySet="tblClub" />
+            <End Role="tblWedstrijd" EntitySet="tblWedstrijd" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersoonClubPersoonId" Association="Self.FK_PersoonClubPersoonId">
+            <End Role="tblPersoon" EntitySet="tblPersoon" />
+            <End Role="tblPersoonClub" EntitySet="tblPersoonClub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResultaatPersoon" Association="Self.FK_ResultaatPersoon">
+            <End Role="tblPersoon" EntitySet="tblPersoon" />
+            <End Role="tblResultaat" EntitySet="tblResultaat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProefCategorieProef" Association="Self.FK_ProefCategorieProef">
+            <End Role="tblProef" EntitySet="tblProef" />
+            <End Role="tblProefCategorie" EntitySet="tblProefCategorie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WedstrijdProefProefCategorie" Association="Self.FK_WedstrijdProefProefCategorie">
+            <End Role="tblProefCategorie" EntitySet="tblProefCategorie" />
+            <End Role="tblWedstijdProef" EntitySet="tblWedstijdProef" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResultaatWijdstrijdProefId" Association="Self.FK_ResultaatWijdstrijdProefId">
+            <End Role="tblWedstijdProef" EntitySet="tblWedstijdProef" />
+            <End Role="tblResultaat" EntitySet="tblResultaat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WedstrijdProefWedstrijd" Association="Self.FK_WedstrijdProefWedstrijd">
+            <End Role="tblWedstrijd" EntitySet="tblWedstrijd" />
+            <End Role="tblWedstijdProef" EntitySet="tblWedstijdProef" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AtletiekInfoModelStoreContainer" CdmEntityContainer="AtletiekInfoEntities">
+          <EntitySetMapping Name="tblCategorie">
+            <EntityTypeMapping TypeName="AtletiekInfoModel.Categorie">
+              <MappingFragment StoreEntitySet="tblCategorie">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="naam" ColumnName="naam" />
+                <ScalarProperty Name="leeftijdBegin" ColumnName="leeftijdBegin" />
+                <ScalarProperty Name="leeftijdEinde" ColumnName="leeftijdEinde" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblClub">
+            <EntityTypeMapping TypeName="AtletiekInfoModel.Club">
+              <MappingFragment StoreEntitySet="tblClub">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="naam" ColumnName="naam" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="provincie" ColumnName="provincie" />
+                <ScalarProperty Name="Locatie" ColumnName="Locatie" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPersoon">
+            <EntityTypeMapping TypeName="AtletiekInfoModel.Persoon">
+              <MappingFragment StoreEntitySet="tblPersoon">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="naam" ColumnName="naam" />
+                <ScalarProperty Name="voornaam" ColumnName="voornaam" />
+                <ScalarProperty Name="geslacht" ColumnName="geslacht" />
+                <ScalarProperty Name="geboorteDatum" ColumnName="geboorteDatum" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPersoonClub">
+            <EntityTypeMapping TypeName="AtletiekInfoModel.PersoonClub">
+              <MappingFragment StoreEntitySet="tblPersoonClub">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="persoonId" ColumnName="persoonId" />
+                <ScalarProperty Name="borstNummer" ColumnName="borstNummer" />
+                <ScalarProperty Name="begin" ColumnName="begin" />
+                <ScalarProperty Name="eind" ColumnName="eind" />
+                <ScalarProperty Name="clubId" ColumnName="clubId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProef">
+            <EntityTypeMapping TypeName="AtletiekInfoModel.Proef">
+              <MappingFragment StoreEntitySet="tblProef">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="naam" ColumnName="naam" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProefCategorie">
+            <EntityTypeMapping TypeName="AtletiekInfoModel.ProefCategorie">
+              <MappingFragment StoreEntitySet="tblProefCategorie">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="proefId" ColumnName="proefId" />
+                <ScalarProperty Name="categorieId" ColumnName="categorieId" />
+                <ScalarProperty Name="geslacht" ColumnName="geslacht" />
+                <ScalarProperty Name="info" ColumnName="info" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblResultaat">
+            <EntityTypeMapping TypeName="AtletiekInfoModel.Resultaat">
+              <MappingFragment StoreEntitySet="tblResultaat">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="wedstrijdProefId" ColumnName="wedstrijdProefId" />
+                <ScalarProperty Name="persoonId" ColumnName="persoonId" />
+                <ScalarProperty Name="plaats" ColumnName="plaats" />
+                <ScalarProperty Name="prestatie" ColumnName="prestatie" />
+                <ScalarProperty Name="wind" ColumnName="wind" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblWedstijdProef">
+            <EntityTypeMapping TypeName="AtletiekInfoModel.WedstijdProef">
+              <MappingFragment StoreEntitySet="tblWedstijdProef">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="proefCategorieId" ColumnName="proefCategorieId" />
+                <ScalarProperty Name="wedsrijdId" ColumnName="wedsrijdId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblWedstrijd">
+            <EntityTypeMapping TypeName="AtletiekInfoModel.Wedstrijd">
+              <MappingFragment StoreEntitySet="tblWedstrijd">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="clubId" ColumnName="clubId" />
+                <ScalarProperty Name="datum" ColumnName="datum" />
+                <ScalarProperty Name="naam" ColumnName="naam" />
+                <ScalarProperty Name="plaats" ColumnName="plaats" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
