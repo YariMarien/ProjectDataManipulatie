@@ -48,11 +48,15 @@ namespace ProjectDataManipulatie_WPF
             {
                 lblRelatieStatus.Visibility = Visibility.Visible;
                 lblProfielWijzigen.Visibility = Visibility.Hidden;
+                tbcRelatieVerzoeken.Visibility = Visibility.Hidden;
+                lblVerzoeken.Visibility = Visibility.Hidden;
             }
             else
             {
                 lblRelatieStatus.Visibility = Visibility.Hidden;
                 lblProfielWijzigen.Visibility = Visibility.Visible;
+                tbcRelatieVerzoeken.Visibility = Visibility.Visible;
+                lblVerzoeken.Visibility = Visibility.Visible;
             }
             lblNaam.Content = "Naam: " + person.FullName;
             lblEmail.Content = "Email: " + person.email;
@@ -79,6 +83,51 @@ namespace ProjectDataManipulatie_WPF
                         break;
                     default:
                         break;
+                }
+            }
+            else
+            {
+                //Get relation requests
+                List<Relatie> Requests = DatabaseOperations.GetUnacceptedRelationRequests(global.currentUserId);
+                List<Persoon> SendRequests = new List<Persoon>();
+                List<Persoon> ReceivedRequests = new List<Persoon>();
+                foreach (var request in Requests)
+                {
+                    if (DatabaseOperations.GetRelationRequestSenderByRelationId(request.Id).Id == global.currentUserId)
+                    {
+                        SendRequests.Add(DatabaseOperations.GetRelationRequestReceiverByRelationId(request.Id));
+                    }
+                    else
+                    {
+                        ReceivedRequests.Add(DatabaseOperations.GetRelationRequestSenderByRelationId(request.Id));
+                    }
+                }
+
+                if (SendRequests.Count > 0)
+                {
+                    lbxVerzondenVriendschapsverzoeken.ItemsSource = SendRequests;
+                    lbxVerzondenVriendschapsverzoeken.SelectedValuePath = "Id";
+                    lbxVerzondenVriendschapsverzoeken.DisplayMemberPath = "FullName";
+                }
+                else
+                {
+                    lbxVerzondenVriendschapsverzoeken.ItemsSource = new List<Persoon> { new Persoon() {naam = "Geen niet geaccepteerde veriendschapsverzoeken verzonden." } };
+                    lbxVerzondenVriendschapsverzoeken.IsEnabled = false;
+                    lbxVerzondenVriendschapsverzoeken.SelectedValuePath = "Id";
+                    lbxVerzondenVriendschapsverzoeken.DisplayMemberPath = "FullName";
+                }
+                if (ReceivedRequests.Count > 0)
+                {
+                    lbxOntvangenVriendschapsverzoeken.ItemsSource = ReceivedRequests;
+                    lbxOntvangenVriendschapsverzoeken.SelectedValuePath = "Id";
+                    lbxOntvangenVriendschapsverzoeken.DisplayMemberPath = "FullName";
+                }
+                else
+                {
+                    lbxOntvangenVriendschapsverzoeken.ItemsSource = new List<Persoon> { new Persoon() { naam = "Geen niet geaccepteerde veriendschapsverzoeken ontvangen." } };
+                    lbxOntvangenVriendschapsverzoeken.IsEnabled = false;
+                    lbxOntvangenVriendschapsverzoeken.SelectedValuePath = "Id";
+                    lbxOntvangenVriendschapsverzoeken.DisplayMemberPath = "FullName";
                 }
             }
         }
@@ -237,6 +286,26 @@ namespace ProjectDataManipulatie_WPF
                 person = DatabaseOperations.GetPersonById(global.currentUserId);
                 Window_Loaded(sender, e);
             }
+        }
+
+        private void lbxOntvangenVriendschapsverzoeken_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lbxOntvangenVriendschapsverzoeken.SelectedItem != null)
+            {
+                person = DatabaseOperations.GetPersonById((lbxOntvangenVriendschapsverzoeken.SelectedItem as Persoon).Id);
+                Window_Loaded(sender, e);
+            }
+
+        }
+
+        private void lbxVerzondenVriendschapsverzoeken_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lbxVerzondenVriendschapsverzoeken.SelectedItem != null)
+            {
+                person = DatabaseOperations.GetPersonById((lbxVerzondenVriendschapsverzoeken.SelectedItem as Persoon).Id);
+                Window_Loaded(sender, e);
+            }
+
         }
     }
 }

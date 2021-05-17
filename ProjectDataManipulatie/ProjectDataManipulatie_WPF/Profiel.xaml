@@ -36,6 +36,15 @@
             <Label x:Name="lblEmail"  Margin="5" Content="Email"/>
             <Label x:Name="lblGeboorteDatum"  Margin="5" Content="GeboorteDatum"/>
             <Label x:Name="lblClub" Content="Club"  Margin="5"/>
+            <Label x:Name="lblVerzoeken" Content="Vriendschapsverzoeken:" Margin="5,25,5,5"/>
+            <TabControl x:Name="tbcRelatieVerzoeken">
+                <TabItem Header="Ontvangen">
+                    <ListBox x:Name="lbxOntvangenVriendschapsverzoeken" SelectionChanged="lbxOntvangenVriendschapsverzoeken_SelectionChanged" />
+                </TabItem>
+                <TabItem Header="Verzonden">
+                    <ListBox x:Name="lbxVerzondenVriendschapsverzoeken" SelectionChanged="lbxVerzondenVriendschapsverzoeken_SelectionChanged" />
+                </TabItem>
+            </TabControl>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="1" >
             <Label x:Name="lblRelatieStatus" Margin="5" Content="Vriend toevoegen" MouseDown="lblRelatieStatus_MouseDown"/>

@@ -227,6 +227,7 @@ namespace ProjectDataManipulatie_WPF
 
         private void lblProfiel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            this.Hide();
             Profiel p = new Profiel();
             p.Show();
             this.Close();

@@ -161,8 +161,28 @@ namespace ProjectDataManipulatie_DAL
                 return requests.ToList();
             }
         }
-
-        public static RelatieStatus GetRelationStatus(int currentUser, int personId)
+        public static Relatie GetRelationById(int relationId)
+        {
+            using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
+            {
+                return AtletiekinfoContext.tblRelaties.Where(x=>x.Id == relationId).First();
+            }
+        }
+        public static Persoon GetRelationRequestSenderByRelationId(int relationId)
+        {
+            using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
+            {
+                return AtletiekinfoContext.tblRelaties.Where(x => x.Id == relationId).First().Persoon1;
+            }
+        }
+        public static Persoon GetRelationRequestReceiverByRelationId(int relationId)
+        {
+            using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
+            {
+                return AtletiekinfoContext.tblRelaties.Where(x => x.Id == relationId).First().Persoon2;
+            }
+        }
+                public static RelatieStatus GetRelationStatus(int currentUser, int personId)
         {
             using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
             {
