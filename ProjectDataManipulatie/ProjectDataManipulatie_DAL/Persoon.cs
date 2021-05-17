@@ -17,8 +17,10 @@ namespace ProjectDataManipulatie_DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Persoon()
         {
-            this.PersoonClub = new HashSet<PersoonClub>();
+            this.PersonenClubs = new HashSet<PersoonClub>();
             this.Resultaten = new HashSet<Resultaat>();
+            this.tblRelaties = new HashSet<Relatie>();
+            this.tblRelaties1 = new HashSet<Relatie>();
         }
     
         public int Id { get; set; }
@@ -30,8 +32,12 @@ namespace ProjectDataManipulatie_DAL
         public string password { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersoonClub> PersoonClub { get; set; }
+        public virtual ICollection<PersoonClub> PersonenClubs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Resultaat> Resultaten { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Relatie> tblRelaties { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Relatie> tblRelaties1 { get; set; }
     }
 }

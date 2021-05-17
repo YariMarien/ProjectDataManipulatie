@@ -23,12 +23,23 @@ namespace ProjectDataManipulatie_WPF
         public MainWindow()
         {
             InitializeComponent();
+            //global.loginWindows = this;
         }
 
         private void btnLogIn_Click(object sender, RoutedEventArgs e)
         {
+            this.Hide();
             Personen p = new Personen();
-            p.ShowDialog();
+            p.Show();
+            this.Close();
+        }
+
+        private void lblRegistreren_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Hide();
+            Registreren r = new Registreren();
+            r.Show();
+            this.Close();
         }
     }
 }

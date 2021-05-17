@@ -56,6 +56,8 @@
     <Compile Include="Club.cs">
       <DependentUpon>ModelAtletiekInfo.tt</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseOperations.cs" />
+    <Compile Include="Enums\RelatieStatus.cs" />
     <Compile Include="ModelAtletiekInfo.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -71,6 +73,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelAtletiekInfo.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Partial_Classes\Persoon.cs" />
     <Compile Include="Persoon.cs">
       <DependentUpon>ModelAtletiekInfo.tt</DependentUpon>
     </Compile>
@@ -84,6 +87,12 @@
       <DependentUpon>ModelAtletiekInfo.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provincie.cs">
+      <DependentUpon>ModelAtletiekInfo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Relatie.cs">
+      <DependentUpon>ModelAtletiekInfo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Resultaat.cs">
       <DependentUpon>ModelAtletiekInfo.tt</DependentUpon>
     </Compile>

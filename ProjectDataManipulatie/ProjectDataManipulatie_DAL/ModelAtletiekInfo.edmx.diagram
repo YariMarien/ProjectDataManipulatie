@@ -4,11 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1066057422474095a9e6b19c350afb47" Name="Diagram1" ZoomLevel="88">
+      <Diagram DiagramId="1066057422474095a9e6b19c350afb47" Name="Diagram1" ZoomLevel="84">
         <EntityTypeShape EntityType="AtletiekInfoModel.Categorie" Width="1.5" PointX="0.75" PointY="12.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AtletiekInfoModel.Club" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AtletiekInfoModel.Persoon" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AtletiekInfoModel.PersoonClub" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AtletiekInfoModel.PersoonClub" Width="1.5" PointX="4.5" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AtletiekInfoModel.Proef" Width="1.5" PointX="0.75" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="AtletiekInfoModel.ProefCategorie" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AtletiekInfoModel.Resultaat" Width="1.5" PointX="9" PointY="8.375" IsExpanded="true" />
@@ -23,6 +23,11 @@
         <AssociationConnector Association="AtletiekInfoModel.FK_WedstrijdProefProefCategorie" ManuallyRouted="false" />
         <AssociationConnector Association="AtletiekInfoModel.FK_ResultaatWijdstrijdProefId" ManuallyRouted="false" />
         <AssociationConnector Association="AtletiekInfoModel.FK_WedstrijdProefWedstrijd" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AtletiekInfoModel.Provincie" Width="1.5" PointX="7" PointY="5.5" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_ProvincieId1" />
+        <EntityTypeShape EntityType="AtletiekInfoModel.Relatie" Width="1.5" PointX="3" PointY="0.75" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_RelatiePersoonEen" />
+        <AssociationConnector Association="AtletiekInfoModel.FK_RelatiePersoonTwee" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

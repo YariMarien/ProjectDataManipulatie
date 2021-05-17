@@ -1,0 +1,50 @@
+﻿<Window x:Class="ProjectDataManipulatie_WPF.Registreren"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectDataManipulatie_WPF"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="Registreren" Height="500" Width="800" Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Width="300px" VerticalAlignment="Center" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label Content="Registreren" Style="{StaticResource TitleLabel}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <TextBox x:Name="txtFirstName" HorizontalAlignment="Left" Width="140px" Margin="5" materialDesign:HintAssist.Hint="Voornaam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <TextBox x:Name="txtName" HorizontalAlignment="Right" Width="140px" Margin="5" materialDesign:HintAssist.Hint="Naam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            </StackPanel>
+            <TextBox x:Name="txtEmail" Margin="5" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <TextBox x:Name="txtPassword" Margin="5" materialDesign:HintAssist.Hint="Wachtwoord" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <Label Content="Geslacht:"  Margin="5, 15, 5, 5"/>
+            <RadioButton  x:Name="rdbMan" Content="Man" GroupName="gGeslacht" Margin="5, 0, 5, 5"
+                    Style="{StaticResource MaterialDesignRadioButton}"
+                    Tag="True">
+            </RadioButton>
+            <RadioButton x:Name="rdbVrouw" Content="Vrouw" GroupName="gGeslacht" Margin="5"
+                    Style="{StaticResource MaterialDesignRadioButton}"
+                    Tag="True">
+            </RadioButton>
+            <Label Content="Geboortedatum:" Margin="5, 15, 5, 0"/>
+            <DatePicker Margin="5"
+                materialDesign:HintAssist.Hint="Pick Date"
+                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+            <!--<Button x:Name="btRegistreren" Content="Registreren" Width="150px" HorizontalAlignment="Right" Margin="5"/>-->
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <Label x:Name="lblLogin" Width="130px" Grid.Column="0" Content="Log-in" Margin="0,0,0,10" VerticalAlignment="Bottom" HorizontalAlignment="Left" MouseDown="lblLogin_MouseDown"/>
+                <Button x:Name="btnRegistreren" Content="Registreer" Width="150px" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5" Click="btnRegistreren_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AtletiekInfoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AtletiekInfoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblCategorie">
           <Key>
             <PropertyRef Name="Id" />
@@ -21,7 +21,7 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="naam" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="website" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="provincie" Type="varchar" MaxLength="50" />
+          <Property Name="provincieId" Type="int" Nullable="false" />
           <Property Name="Locatie" Type="varchar" MaxLength="50" />
           <Property Name="email" Type="varchar" MaxLength="50" />
         </EntityType>
@@ -64,6 +64,23 @@
           <Property Name="categorieId" Type="int" Nullable="false" />
           <Property Name="geslacht" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="info" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblProvincies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="naam" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="gewest" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRelaties">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersoonEenId" Type="int" Nullable="false" />
+          <Property Name="PersoonTweeId" Type="int" Nullable="false" />
+          <Property Name="Geaccepteerd" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tblResultaat">
           <Key>
@@ -142,6 +159,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProvincieId">
+          <End Role="tblProvincies" Type="Self.tblProvincies" Multiplicity="1" />
+          <End Role="tblClub" Type="Self.tblClub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProvincies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblClub">
+              <PropertyRef Name="provincieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelatiePersoonEen">
+          <End Role="tblPersoon" Type="Self.tblPersoon" Multiplicity="1" />
+          <End Role="tblRelaties" Type="Self.tblRelaties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPersoon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblRelaties">
+              <PropertyRef Name="PersoonEenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelatiePersoonTwee">
+          <End Role="tblPersoon" Type="Self.tblPersoon" Multiplicity="1" />
+          <End Role="tblRelaties" Type="Self.tblRelaties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPersoon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblRelaties">
+              <PropertyRef Name="PersoonTweeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ResultaatPersoon">
           <End Role="tblPersoon" Type="Self.tblPersoon" Multiplicity="1" />
           <End Role="tblResultaat" Type="Self.tblResultaat" Multiplicity="*" />
@@ -211,6 +264,8 @@
           <EntitySet Name="tblPersoonClub" EntityType="Self.tblPersoonClub" Schema="AtletiekInfo" store:Type="Tables" />
           <EntitySet Name="tblProef" EntityType="Self.tblProef" Schema="AtletiekInfo" store:Type="Tables" />
           <EntitySet Name="tblProefCategorie" EntityType="Self.tblProefCategorie" Schema="AtletiekInfo" store:Type="Tables" />
+          <EntitySet Name="tblProvincies" EntityType="Self.tblProvincies" Schema="AtletiekInfo" store:Type="Tables" />
+          <EntitySet Name="tblRelaties" EntityType="Self.tblRelaties" Schema="AtletiekInfo" store:Type="Tables" />
           <EntitySet Name="tblResultaat" EntityType="Self.tblResultaat" Schema="AtletiekInfo" store:Type="Tables" />
           <EntitySet Name="tblWedstijdProef" EntityType="Self.tblWedstijdProef" Schema="AtletiekInfo" store:Type="Tables" />
           <EntitySet Name="tblWedstrijd" EntityType="Self.tblWedstrijd" Schema="AtletiekInfo" store:Type="Tables" />
@@ -229,6 +284,18 @@
           <AssociationSet Name="FK_ProefCategorieProef" Association="Self.FK_ProefCategorieProef">
             <End Role="tblProef" EntitySet="tblProef" />
             <End Role="tblProefCategorie" EntitySet="tblProefCategorie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProvincieId" Association="Self.FK_ProvincieId">
+            <End Role="tblProvincies" EntitySet="tblProvincies" />
+            <End Role="tblClub" EntitySet="tblClub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelatiePersoonEen" Association="Self.FK_RelatiePersoonEen">
+            <End Role="tblPersoon" EntitySet="tblPersoon" />
+            <End Role="tblRelaties" EntitySet="tblRelaties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelatiePersoonTwee" Association="Self.FK_RelatiePersoonTwee">
+            <End Role="tblPersoon" EntitySet="tblPersoon" />
+            <End Role="tblRelaties" EntitySet="tblRelaties" />
           </AssociationSet>
           <AssociationSet Name="FK_ResultaatPersoon" Association="Self.FK_ResultaatPersoon">
             <End Role="tblPersoon" EntitySet="tblPersoon" />
@@ -251,8 +318,7 @@
             <End Role="tblWedstijdProef" EntitySet="tblWedstijdProef" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AtletiekInfoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -273,11 +339,12 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="naam" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="website" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="provincie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Locatie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Personen" Relationship="Self.FK_PersoonClubClubId" FromRole="tblClub" ToRole="tblPersoonClub" />
+          <NavigationProperty Name="PersonenClubs" Relationship="Self.FK_PersoonClubClubId" FromRole="tblClub" ToRole="tblPersoonClub" />
           <NavigationProperty Name="Wedstrijden" Relationship="Self.FK_WedstrijdClub" FromRole="tblClub" ToRole="tblWedstrijd" />
+          <Property Name="provincieId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Provincie" Relationship="AtletiekInfoModel.FK_ProvincieId1" FromRole="Club" ToRole="tblProvincies" />
         </EntityType>
         <EntityType Name="Persoon">
           <Key>
@@ -290,8 +357,10 @@
           <Property Name="geboorteDatum" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PersoonClub" Relationship="Self.FK_PersoonClubPersoonId" FromRole="tblPersoon" ToRole="tblPersoonClub" />
+          <NavigationProperty Name="PersonenClubs" Relationship="Self.FK_PersoonClubPersoonId" FromRole="tblPersoon" ToRole="tblPersoonClub" />
           <NavigationProperty Name="Resultaten" Relationship="Self.FK_ResultaatPersoon" FromRole="tblPersoon" ToRole="tblResultaat" />
+          <NavigationProperty Name="tblRelaties" Relationship="AtletiekInfoModel.FK_RelatiePersoonEen" FromRole="Persoon" ToRole="tblRelaties" />
+          <NavigationProperty Name="tblRelaties1" Relationship="AtletiekInfoModel.FK_RelatiePersoonTwee" FromRole="Persoon" ToRole="tblRelaties" />
         </EntityType>
         <EntityType Name="PersoonClub">
           <Key>
@@ -519,7 +588,77 @@
             <End Role="tblWedstrijd" EntitySet="tblWedstrijd" />
             <End Role="tblWedstijdProef" EntitySet="tblWedstijdProef" />
           </AssociationSet>
+          <EntitySet Name="tblProvincies" EntityType="AtletiekInfoModel.Provincie" />
+          <AssociationSet Name="FK_ProvincieId1" Association="AtletiekInfoModel.FK_ProvincieId1">
+            <End Role="tblProvincies" EntitySet="tblProvincies" />
+            <End Role="Club" EntitySet="tblClub" />
+          </AssociationSet>
+          <EntitySet Name="tblRelaties" EntityType="AtletiekInfoModel.Relatie" />
+          <AssociationSet Name="FK_RelatiePersoonEen" Association="AtletiekInfoModel.FK_RelatiePersoonEen">
+            <End Role="Persoon" EntitySet="tblPersoon" />
+            <End Role="tblRelaties" EntitySet="tblRelaties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RelatiePersoonTwee" Association="AtletiekInfoModel.FK_RelatiePersoonTwee">
+            <End Role="Persoon" EntitySet="tblPersoon" />
+            <End Role="tblRelaties" EntitySet="tblRelaties" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Provincie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="naam" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="gewest" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Clubs" Relationship="AtletiekInfoModel.FK_ProvincieId1" FromRole="tblProvincies" ToRole="Club" />
+        </EntityType>
+        <Association Name="FK_ProvincieId1">
+          <End Type="AtletiekInfoModel.Provincie" Role="tblProvincies" Multiplicity="1" />
+          <End Type="AtletiekInfoModel.Club" Role="Club" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProvincies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Club">
+              <PropertyRef Name="provincieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Relatie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersoonEenId" Type="Int32" Nullable="false" />
+          <Property Name="PersoonTweeId" Type="Int32" Nullable="false" />
+          <Property Name="Geaccepteerd" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Persoon1" Relationship="AtletiekInfoModel.FK_RelatiePersoonEen" FromRole="tblRelaties" ToRole="Persoon" />
+          <NavigationProperty Name="Persoon2" Relationship="AtletiekInfoModel.FK_RelatiePersoonTwee" FromRole="tblRelaties" ToRole="Persoon" />
+        </EntityType>
+        <Association Name="FK_RelatiePersoonEen">
+          <End Type="AtletiekInfoModel.Persoon" Role="Persoon" Multiplicity="1" />
+          <End Type="AtletiekInfoModel.Relatie" Role="tblRelaties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persoon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblRelaties">
+              <PropertyRef Name="PersoonEenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RelatiePersoonTwee">
+          <End Type="AtletiekInfoModel.Persoon" Role="Persoon" Multiplicity="1" />
+          <End Type="AtletiekInfoModel.Relatie" Role="tblRelaties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persoon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblRelaties">
+              <PropertyRef Name="PersoonTweeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -539,10 +678,10 @@
           <EntitySetMapping Name="tblClub">
             <EntityTypeMapping TypeName="AtletiekInfoModel.Club">
               <MappingFragment StoreEntitySet="tblClub">
+                <ScalarProperty Name="provincieId" ColumnName="provincieId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="naam" ColumnName="naam" />
                 <ScalarProperty Name="website" ColumnName="website" />
-                <ScalarProperty Name="provincie" ColumnName="provincie" />
                 <ScalarProperty Name="Locatie" ColumnName="Locatie" />
                 <ScalarProperty Name="email" ColumnName="email" />
               </MappingFragment>
@@ -621,6 +760,25 @@
                 <ScalarProperty Name="datum" ColumnName="datum" />
                 <ScalarProperty Name="naam" ColumnName="naam" />
                 <ScalarProperty Name="plaats" ColumnName="plaats" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProvincies">
+            <EntityTypeMapping TypeName="AtletiekInfoModel.Provincie">
+              <MappingFragment StoreEntitySet="tblProvincies">
+                <ScalarProperty Name="gewest" ColumnName="gewest" />
+                <ScalarProperty Name="naam" ColumnName="naam" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRelaties">
+            <EntityTypeMapping TypeName="AtletiekInfoModel.Relatie">
+              <MappingFragment StoreEntitySet="tblRelaties">
+                <ScalarProperty Name="Geaccepteerd" ColumnName="Geaccepteerd" />
+                <ScalarProperty Name="PersoonTweeId" ColumnName="PersoonTweeId" />
+                <ScalarProperty Name="PersoonEenId" ColumnName="PersoonEenId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

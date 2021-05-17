@@ -34,5 +34,7 @@ namespace ProjectDataManipulatie_DAL
         public virtual DbSet<Resultaat> tblResultaat { get; set; }
         public virtual DbSet<WedstijdProef> tblWedstijdProef { get; set; }
         public virtual DbSet<Wedstrijd> tblWedstrijd { get; set; }
+        public virtual DbSet<Provincie> tblProvincies { get; set; }
+        public virtual DbSet<Relatie> tblRelaties { get; set; }
     }
 }

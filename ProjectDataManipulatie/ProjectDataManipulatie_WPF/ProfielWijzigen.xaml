@@ -1,4 +1,4 @@
-﻿<Window x:Class="ProjectDataManipulatie_WPF.Profiel"
+﻿<Window x:Class="ProjectDataManipulatie_WPF.ProfielWijzigen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,7 +13,7 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Profiel" Height="500" Width="800" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="ProfielWijzigen"  Height="500" Width="800" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="6*"/>
@@ -24,7 +24,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <Label x:Name="lblPersonen" Margin="5" Content="Personen" MouseDown="lblPersonen_MouseDown"/>
+            <Label x:Name="lblPersonen" Margin="5" Content="Personen"/>
             <Label x:Name="lblAdmin" Content="Admin" Margin="5"/>
         </StackPanel>
         <StackPanel Grid.Row="2">
@@ -32,14 +32,14 @@
             <Label x:Name="lblLogOut" Content="Log-Out" Margin="5" MouseDown="lblLogOut_MouseDown"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
-            <Label x:Name="lblNaam"  Margin="5" Content="Naam"/>
-            <Label x:Name="lblEmail"  Margin="5" Content="Email"/>
-            <Label x:Name="lblGeboorteDatum"  Margin="5" Content="GeboorteDatum"/>
-            <Label x:Name="lblClub" Content="Club"  Margin="5"/>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1" >
-            <Label x:Name="lblRelatieStatus" Margin="5" Content="Vriend toevoegen" MouseDown="lblRelatieStatus_MouseDown"/>
-            <Label x:Name="lblProfielWijzigen" Margin="5" Content="Profiel wijzigen" MouseDown="lblProfielWijzigen_MouseDown"/>
+            <TextBox x:Name="txtEmail"
+                materialDesign:HintAssist.Hint="Email adres"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                VerticalAlignment="Center" />
+            <DatePicker x:Name="dprGeboorteDatum"
+                materialDesign:HintAssist.Hint="Geboortedatum"
+                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+            <Button x:Name="btnOpslaan" Content="Opslaan" Width="150px" HorizontalAlignment="Right" Margin="5, 25, 5, 5" Click="btnOpslaan_Click"/>
         </StackPanel>
     </Grid>
 </Window>

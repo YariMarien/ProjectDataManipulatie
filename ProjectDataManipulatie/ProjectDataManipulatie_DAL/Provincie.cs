@@ -12,26 +12,19 @@ namespace ProjectDataManipulatie_DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Club
+    public partial class Provincie
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Club()
+        public Provincie()
         {
-            this.PersonenClubs = new HashSet<PersoonClub>();
-            this.Wedstrijden = new HashSet<Wedstrijd>();
+            this.Clubs = new HashSet<Club>();
         }
     
         public int Id { get; set; }
         public string naam { get; set; }
-        public string website { get; set; }
-        public string Locatie { get; set; }
-        public string email { get; set; }
-        public int provincieId { get; set; }
+        public bool gewest { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersoonClub> PersonenClubs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wedstrijd> Wedstrijden { get; set; }
-        public virtual Provincie Provincie { get; set; }
+        public virtual ICollection<Club> Clubs { get; set; }
     }
 }
