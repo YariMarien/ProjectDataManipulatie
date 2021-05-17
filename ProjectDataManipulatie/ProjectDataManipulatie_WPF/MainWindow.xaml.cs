@@ -28,6 +28,10 @@ namespace ProjectDataManipulatie_WPF
 
         private void btnLogIn_Click(object sender, RoutedEventArgs e)
         {
+            if (!string.IsNullOrEmpty(txtEmail.Text))
+            {
+                global.currentUserId = Convert.ToInt32(txtEmail.Text);
+            }
             this.Hide();
             Personen p = new Personen();
             p.Show();

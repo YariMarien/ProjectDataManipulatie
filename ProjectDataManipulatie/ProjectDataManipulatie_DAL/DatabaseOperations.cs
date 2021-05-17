@@ -210,6 +210,25 @@ namespace ProjectDataManipulatie_DAL
             }
         }
 
+        public static void AcceptRelationShipRequest(int personId1, int personId2)
+        {
+            using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
+            {
+                var request = AtletiekInfoContext.tblRelaties.Where(x => x.Persoon1.Id == personId1 && x.Persoon2.Id == personId2).First();
+                request.Geaccepteerd = true;
+                AtletiekInfoContext.SaveChanges();
+            }
+        }
+
+        public static void DeleteFriend(int personId1, int personId2)
+        {
+            using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
+            {
+                AtletiekInfoContext.tblRelaties.Remove(AtletiekInfoContext.tblRelaties.Where(x => (x.Persoon1.Id == personId1 && x.Persoon2.Id == personId2) || (x.Persoon2.Id == personId1 && x.Persoon1.Id == personId2)).First());
+                AtletiekInfoContext.SaveChanges();
+            }
+        }
+
         /// <summary>
         /// Get persons current club
         /// </summary>

@@ -118,6 +118,30 @@ namespace ProjectDataManipulatie_WPF
                         MessageBox.Show("Het vriendschapsverzoek is niet geannuleerd.", "Toch behouden");
                     }
                     break;
+                case "Vriend accepteren":
+                    if (AcceptRelationRequest())
+                    {
+                        DatabaseOperations.AcceptRelationShipRequest(person.Id, global.currentUserId);
+                        MessageBox.Show("Vriendschapsverzoek is geaccepteerd.", "Gelukt", MessageBoxButton.OK);
+                        lblRelatieStatus.Content = "Vriend verwijderen";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Het vriendschapsverzoek is niet geaccepteerd.", "Toch niet toevoegen");
+                    }
+                    break;
+                case "Vriend verwijderen":
+                    if (DeleteFriend())
+                    {
+                        DatabaseOperations.DeleteFriend(person.Id, global.currentUserId);
+                        MessageBox.Show(person.FullName + "is uit je vrienden verwijderd.", "Vriend verwijderd", MessageBoxButton.OK);
+                        lblRelatieStatus.Content = "Vriend toevoegen";
+                    }
+                    else
+                    {
+                        MessageBox.Show(person.FullName + " is niet verwijderd als vriend.", "Toch niet verwijderen");
+                    }
+                    break;
                 default:
                     break;
             }
@@ -158,6 +182,44 @@ namespace ProjectDataManipulatie_WPF
                     return false;
                 default:
                     return CancelRelationRequest();
+            }
+        }
+        public bool AcceptRelationRequest()
+        {
+            var resp = MessageBox.Show("Zeker dat je je veriendschapsverzoek van " + person.FullName + " wil accepteren?", "Vriendschapsverzoek accepteren", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            switch (resp)
+            {
+                case MessageBoxResult.None:
+                    return AcceptRelationRequest();
+                case MessageBoxResult.OK:
+                    return true;
+                case MessageBoxResult.Cancel:
+                    return false;
+                case MessageBoxResult.Yes:
+                    return true;
+                case MessageBoxResult.No:
+                    return false;
+                default:
+                    return AcceptRelationRequest();
+            }
+        }
+        public bool DeleteFriend()
+        {
+            var resp = MessageBox.Show("Zeker " + person.FullName + " uit je vrienden wil verwijderen?", "Vriend verwijderen", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            switch (resp)
+            {
+                case MessageBoxResult.None:
+                    return DeleteFriend();
+                case MessageBoxResult.OK:
+                    return true;
+                case MessageBoxResult.Cancel:
+                    return false;
+                case MessageBoxResult.Yes:
+                    return true;
+                case MessageBoxResult.No:
+                    return false;
+                default:
+                    return DeleteFriend();
             }
         }
         private void lblPersonen_MouseDown(object sender, MouseButtonEventArgs e)
