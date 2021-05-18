@@ -24,7 +24,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <Label x:Name="lblPersonen" Margin="5" Content="Personen"/>
+            <Label x:Name="lblPersonen" Margin="5" Content="Atleten"/>
             <Label x:Name="lblAdmin" Content="Admin" Margin="5"/>
         </StackPanel>
         <StackPanel Grid.Row="2">

@@ -26,10 +26,14 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Width="300px" VerticalAlignment="Center" Margin="0,0,0,30">
             <Label Content="Log in" Style="{StaticResource TitleLabel}"/>
             <TextBox Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtEmail" Margin="5, 5, 5, 5" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-            <TextBox Grid.ColumnSpan="2" x:Name="txtPassword" Margin="5, 5, 5, 5" materialDesign:HintAssist.Hint="Wachtwoord" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <!--<PasswordBox Grid.ColumnSpan="2" x:Name="txtPassword" Margin="5, 5, 5, 5" materialDesign:HintAssist.Hint="Wachtwoord" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>-->
+            <PasswordBox
+                Grid.ColumnSpan="2" x:Name="txtPassword" Margin="5, 5, 5, 5"
+                materialDesign:HintAssist.Hint="Wachtwoord"
+                materialDesign:TextFieldAssist.HasClearButton="True"/>
             <StackPanel Orientation="Horizontal">
-                <Label x:Name="lblRegistreren" Width="130px" Grid.Column="0" Content="Registreren" Margin="0,0,0,10" VerticalAlignment="Bottom" HorizontalAlignment="Left" MouseDown="lblRegistreren_MouseDown"/>
-                <Button x:Name="btnLogIn" Content="Log-in" Width="150px" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5" Click="btnLogIn_Click"/>
+                <Button x:Name="btnRegistreren" Width="130px" IsCancel="True" Grid.Column="0" Content="Registreren" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnRegistreren_Click"/>
+                <Button x:Name="btnLogIn" IsDefault="True" Content="Log-in" Width="150px" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5" Click="btnLogIn_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

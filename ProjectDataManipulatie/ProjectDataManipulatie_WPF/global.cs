@@ -9,6 +9,6 @@ namespace ProjectDataManipulatie_WPF
     public static class global
     {
         //public static MainWindow loginWindows = new MainWindow();
-        public static int currentUserId = 2;
+        public static int? currentUserId = null;
     }
 }

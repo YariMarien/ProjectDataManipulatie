@@ -22,6 +22,7 @@ namespace ProjectDataManipulatie_WPF
     {
         public ProfielWijzigen()
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
         private void lblLogOut_MouseDown(object sender, MouseButtonEventArgs e)
@@ -48,7 +49,7 @@ namespace ProjectDataManipulatie_WPF
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Persoon user = DatabaseOperations.GetPersonById(global.currentUserId);
+            Persoon user = DatabaseOperations.GetPersonById((int)global.currentUserId);
             txtEmail.Text = user.email;
             dprGeboorteDatum.SelectedDate = user.geboorteDatum;
         }
@@ -57,8 +58,7 @@ namespace ProjectDataManipulatie_WPF
         {
             if (!string.IsNullOrEmpty(txtEmail.Text) && dprGeboorteDatum.SelectedDate!=null)
             {
-                this.Hide();
-                DatabaseOperations.UpdatePerson(global.currentUserId, txtEmail.Text, (DateTime)dprGeboorteDatum.SelectedDate);
+                DatabaseOperations.UpdatePerson((int)global.currentUserId, txtEmail.Text, (DateTime)dprGeboorteDatum.SelectedDate);
                 MessageBox.Show("Je profiel is aangepast", "Gelukt", MessageBoxButton.OK);
                 openProfile();
             }

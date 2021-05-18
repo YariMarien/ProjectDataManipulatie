@@ -22,6 +22,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200px"/>
             <ColumnDefinition/>
+            <ColumnDefinition x:Name="colLoggedIn" Width="200px"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
             <Label x:Name="lblPersonen" Margin="5" Content="Personen" MouseDown="lblPersonen_MouseDown"/>
@@ -31,7 +32,7 @@
             <Label x:Name="lblProfiel" Content="Profile" Margin="5" MouseDown="lblProfiel_MouseDown"/>
             <Label x:Name="lblLogOut" Content="Log-Out" Margin="5" MouseDown="lblLogOut_MouseDown"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
+        <StackPanel x:Name="spGegevens" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
             <Label x:Name="lblNaam"  Margin="5" Content="Naam"/>
             <Label x:Name="lblEmail"  Margin="5" Content="Email"/>
             <Label x:Name="lblGeboorteDatum"  Margin="5" Content="GeboorteDatum"/>
@@ -46,9 +47,22 @@
                 </TabItem>
             </TabControl>
         </StackPanel>
+        <DataGrid x:Name="dgVrienden" Visibility="Collapsed" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" AutoGenerateColumns="False" SelectionChanged="dgVrienden_SelectionChanged" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Naam" Binding="{Binding FullName}" />
+                <DataGridTextColumn Header="Geslacht" Binding="{Binding geslacht}" />
+                <DataGridTextColumn Header="Club" Binding="{Binding CurrentClub.naam}" />
+                <DataGridTextColumn Header="Borstnummer" Binding="{Binding CurrentNumber}" />
+            </DataGrid.Columns>
+        </DataGrid>
         <StackPanel Grid.Column="1" Grid.Row="1" >
             <Label x:Name="lblRelatieStatus" Margin="5" Content="Vriend toevoegen" MouseDown="lblRelatieStatus_MouseDown"/>
             <Label x:Name="lblProfielWijzigen" Margin="5" Content="Profiel wijzigen" MouseDown="lblProfielWijzigen_MouseDown"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="2">
+            <Label x:Name="lblGegevens" Content="Gegevens" MouseDown="lblGegevens_MouseDown"/>
+            <Label x:Name="lblVrienden" Content="Vrienden" MouseDown="lblVrienden_MouseDown"/>
+            <Label x:Name="lblRecords" Content="Records" MouseDown="lblRecords_MouseDown"/>
         </StackPanel>
     </Grid>
 </Window>

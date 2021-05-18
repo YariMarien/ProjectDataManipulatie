@@ -26,7 +26,12 @@
                 <TextBox x:Name="txtName" HorizontalAlignment="Right" Width="140px" Margin="5" materialDesign:HintAssist.Hint="Naam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             </StackPanel>
             <TextBox x:Name="txtEmail" Margin="5" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-            <TextBox x:Name="txtPassword" Margin="5" materialDesign:HintAssist.Hint="Wachtwoord" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <PasswordBox
+                Grid.ColumnSpan="2" x:Name="txtPassword" Margin="5"
+                materialDesign:HintAssist.Hint="Wachtwoord"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                materialDesign:HintAssist.HelperText="Kies een sterk wachtwoord!" />
+            <!--<TextBox x:Name="txtPassword" Margin="5" materialDesign:HintAssist.Hint="Wachtwoord" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>-->
             <Label Content="Geslacht:"  Margin="5, 15, 5, 5"/>
             <RadioButton  x:Name="rdbMan" Content="Man" GroupName="gGeslacht" Margin="5, 0, 5, 5"
                     Style="{StaticResource MaterialDesignRadioButton}"
@@ -37,13 +42,13 @@
                     Tag="True">
             </RadioButton>
             <Label Content="Geboortedatum:" Margin="5, 15, 5, 0"/>
-            <DatePicker Margin="5"
+            <DatePicker x:Name="dpGeboortedatum" Margin="5"
                 materialDesign:HintAssist.Hint="Pick Date"
                 Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
             <!--<Button x:Name="btRegistreren" Content="Registreren" Width="150px" HorizontalAlignment="Right" Margin="5"/>-->
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                <Label x:Name="lblLogin" Width="130px" Grid.Column="0" Content="Log-in" Margin="0,0,0,10" VerticalAlignment="Bottom" HorizontalAlignment="Left" MouseDown="lblLogin_MouseDown"/>
-                <Button x:Name="btnRegistreren" Content="Registreer" Width="150px" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5" Click="btnRegistreren_Click"/>
+                <Button x:Name="btnLogin" IsCancel="True" Width="130px" Grid.Column="0" Content="Log-in" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnLogin_Click"/>
+                <Button x:Name="btnRegistreren" IsDefault="True" Content="Registreer" Width="150px" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5" Click="btnRegistreren_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

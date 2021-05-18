@@ -24,6 +24,7 @@ namespace ProjectDataManipulatie_WPF
         public Personen()
         {
             InitializeComponent();
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private void lblLogOut_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectDataManipulatie_DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,17 +21,27 @@ namespace ProjectDataManipulatie_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        public MainWindow(string email, string password)
+        {
+            InitializeComponent();
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            txtEmail.Text = email;
+            txtPassword.Password = password;
+        }
+
         public MainWindow()
         {
             InitializeComponent();
-            //global.loginWindows = this;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            txtEmail.Text = DatabaseOperations.GetPersonById(1).email;
+            txtPassword.Password = DatabaseOperations.GetPersonById(1).password;
         }
 
         private void btnLogIn_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtEmail.Text))
+            if (DatabaseOperations.CheckLogin(txtEmail.Text, txtPassword.Password))
             {
-                global.currentUserId = Convert.ToInt32(txtEmail.Text);
+                global.currentUserId = DatabaseOperations.GetPersonIdByEmail(txtEmail.Text);
             }
             this.Hide();
             Personen p = new Personen();
@@ -38,7 +49,7 @@ namespace ProjectDataManipulatie_WPF
             this.Close();
         }
 
-        private void lblRegistreren_MouseDown(object sender, MouseButtonEventArgs e)
+        private void btnRegistreren_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
             Registreren r = new Registreren();
