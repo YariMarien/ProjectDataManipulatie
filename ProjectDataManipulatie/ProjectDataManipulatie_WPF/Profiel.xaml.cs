@@ -1,4 +1,5 @@
 ﻿using ProjectDataManipulatie_DAL;
+using dto = ProjectDataManipulatie_DAL.dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,16 +33,6 @@ namespace ProjectDataManipulatie_WPF
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             person = DatabaseOperations.GetPersonById(personId);
-        }
-        private void lblLogOut_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            MainWindow m = new MainWindow();
-            m.Show();
-            this.Close();
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -113,16 +104,16 @@ namespace ProjectDataManipulatie_WPF
             switch (status)
             {
                 case ProjectDataManipulatie_DAL.Enums.RelatieStatus.Vrienden:
-                    lblRelatieStatus.Content = "Vriend verwijderen";
+                    btnRelatieStatus.Content = "Vriend verwijderen";
                     break;
                 case ProjectDataManipulatie_DAL.Enums.RelatieStatus.VerzoekVerzonden:
-                    lblRelatieStatus.Content = "Vriendschap verzoek verwijderen";
+                    btnRelatieStatus.Content = "Vriendschap verzoek verwijderen";
                     break;
                 case ProjectDataManipulatie_DAL.Enums.RelatieStatus.VerzoekOntvangen:
-                    lblRelatieStatus.Content = "Vriend accepteren";
+                    btnRelatieStatus.Content = "Vriend accepteren";
                     break;
                 case ProjectDataManipulatie_DAL.Enums.RelatieStatus.NietVerbonden:
-                    lblRelatieStatus.Content = "Vriend toevoegen";
+                    btnRelatieStatus.Content = "Vriend toevoegen";
                     break;
                 default:
                     break;
@@ -133,16 +124,16 @@ namespace ProjectDataManipulatie_WPF
         {
             if (person.Id != (int)(int)global.currentUserId)
             {
-                lblRelatieStatus.Visibility = Visibility.Visible;
-                lblProfielWijzigen.Visibility = Visibility.Hidden;
+                btnRelatieStatus.Visibility = Visibility.Visible;
+                btnProfielWijzigen.Visibility = Visibility.Hidden;
                 tbcRelatieVerzoeken.Visibility = Visibility.Hidden;
                 lblVerzoeken.Visibility = Visibility.Hidden;
                 colLoggedIn.Width = new GridLength(0);
             }
             else
             {
-                lblRelatieStatus.Visibility = Visibility.Hidden;
-                lblProfielWijzigen.Visibility = Visibility.Visible;
+                btnRelatieStatus.Visibility = Visibility.Hidden;
+                btnProfielWijzigen.Visibility = Visibility.Visible;
                 tbcRelatieVerzoeken.Visibility = Visibility.Visible;
                 lblVerzoeken.Visibility = Visibility.Visible;
                 colLoggedIn.Width = new GridLength(200);
@@ -154,76 +145,24 @@ namespace ProjectDataManipulatie_WPF
             lblNaam.Content = "Naam: " + person.FullName;
             lblEmail.Content = "Email: " + person.email;
             lblGeboorteDatum.Content = "Geboortedatum: " + person.geboorteDatum.ToString("dd/MM/yyyy");
-            lblClub.Content = "Club: " + person.CurrentClub.naam;
+            if (person.PersonenClubs.Count>0)
+            {
+                lblClub.Content = "Club: " + person.CurrentClub.naam;
+            }
+            else
+            {
+                lblClub.Content = "Deze persoon is geen atleet.";
+            }
+            
         }
 
         public void SetFriends() {
             dgVrienden.ItemsSource = DatabaseOperations.GetFriends((int)(int)global.currentUserId);
         }
 
-        private void lblProfielWijzigen_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Hide();
-            ProfielWijzigen ProfielWijzigen = new ProfielWijzigen();
-            ProfielWijzigen.Show();
-            this.Close();
-        }
-
         private void lblRelatieStatus_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            switch (lblRelatieStatus.Content)
-            {
-                case "Vriend toevoegen":
-                    if (AddFriend())
-                    {
-                        DatabaseOperations.SendRelationShipRequest((int)(int)global.currentUserId, person.Id);
-                        MessageBox.Show("Vriendschapsverzoek is verzonden.", "Verzonden", MessageBoxButton.OK);
-                        lblRelatieStatus.Content = "Vriendschap verzoek verwijderen";
-                    }
-                    else
-                    {
-                        MessageBox.Show("Vriendschapsverzoek is niet verzonden.", "Annulatie", MessageBoxButton.OK);
-                    }
-                    break;
-                case "Vriendschap verzoek verwijderen":
-                    if (CancelRelationRequest())
-                    {
-                        DatabaseOperations.CancelRelationShipRequest((int)(int)global.currentUserId, person.Id);
-                        MessageBox.Show("Vriendschapsverzoek is geannuleerd.", "Annulatie", MessageBoxButton.OK);
-                        lblRelatieStatus.Content = "Vriend toevoegen";
-                    }
-                    else
-                    {
-                        MessageBox.Show("Het vriendschapsverzoek is niet geannuleerd.", "Toch behouden");
-                    }
-                    break;
-                case "Vriend accepteren":
-                    if (AcceptRelationRequest())
-                    {
-                        DatabaseOperations.AcceptRelationShipRequest(person.Id, (int)(int)global.currentUserId);
-                        MessageBox.Show("Vriendschapsverzoek is geaccepteerd.", "Gelukt", MessageBoxButton.OK);
-                        lblRelatieStatus.Content = "Vriend verwijderen";
-                    }
-                    else
-                    {
-                        MessageBox.Show("Het vriendschapsverzoek is niet geaccepteerd.", "Toch niet toevoegen");
-                    }
-                    break;
-                case "Vriend verwijderen":
-                    if (DeleteFriend())
-                    {
-                        DatabaseOperations.DeleteFriend(person.Id, (int)(int)global.currentUserId);
-                        MessageBox.Show(person.FullName + "is uit je vrienden verwijderd.", "Vriend verwijderd", MessageBoxButton.OK);
-                        lblRelatieStatus.Content = "Vriend toevoegen";
-                    }
-                    else
-                    {
-                        MessageBox.Show(person.FullName + " is niet verwijderd als vriend.", "Toch niet verwijderen");
-                    }
-                    break;
-                default:
-                    break;
-            }
+            
         }
         public bool AddFriend()
         {
@@ -301,22 +240,6 @@ namespace ProjectDataManipulatie_WPF
                     return DeleteFriend();
             }
         }
-        private void lblPersonen_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Hide();
-            Personen p = new Personen();
-            p.Show();
-            this.Close();
-        }
-
-        private void lblProfiel_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (person.Id != (int)(int)global.currentUserId)
-            {
-                person = DatabaseOperations.GetPersonById((int)(int)global.currentUserId);
-                Window_Loaded(sender, e);
-            }
-        }
 
         private void lbxOntvangenVriendschapsverzoeken_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -380,6 +303,100 @@ namespace ProjectDataManipulatie_WPF
                 Window_Loaded(sender, e);
                 Naviagte(0);
             }
+        }
+
+        private void btnPersonen_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            Personen p = new Personen();
+            p.Show();
+            this.Close();
+        }
+
+        private void btnProfiel_Click(object sender, RoutedEventArgs e)
+        {
+            if (person.Id != (int)(int)global.currentUserId)
+            {
+                person = DatabaseOperations.GetPersonById((int)(int)global.currentUserId);
+                Window_Loaded(sender, e);
+            }
+        }
+
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow m = new MainWindow();
+            m.Show();
+            this.Close();
+        }
+
+        private void btnRelatieStatus_Click(object sender, RoutedEventArgs e)
+        {
+            switch (btnRelatieStatus.Content)
+            {
+                case "Vriend toevoegen":
+                    if (AddFriend())
+                    {
+                        DatabaseOperations.SendRelationRequest((int)(int)global.currentUserId, person.Id);
+                        MessageBox.Show("Vriendschapsverzoek is verzonden.", "Verzonden", MessageBoxButton.OK);
+                        btnRelatieStatus.Content = "Vriendschap verzoek verwijderen";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Vriendschapsverzoek is niet verzonden.", "Annulatie", MessageBoxButton.OK);
+                    }
+                    break;
+                case "Vriendschap verzoek verwijderen":
+                    if (CancelRelationRequest())
+                    {
+                        DatabaseOperations.CancelRelationRequest((int)(int)global.currentUserId, person.Id);
+                        MessageBox.Show("Vriendschapsverzoek is geannuleerd.", "Annulatie", MessageBoxButton.OK);
+                        btnRelatieStatus.Content = "Vriend toevoegen";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Het vriendschapsverzoek is niet geannuleerd.", "Toch behouden");
+                    }
+                    break;
+                case "Vriend accepteren":
+                    if (AcceptRelationRequest())
+                    {
+                        DatabaseOperations.AcceptRelationRequest(person.Id, (int)(int)global.currentUserId);
+                        MessageBox.Show("Vriendschapsverzoek is geaccepteerd.", "Gelukt", MessageBoxButton.OK);
+                        btnRelatieStatus.Content = "Vriend verwijderen";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Het vriendschapsverzoek is niet geaccepteerd.", "Toch niet toevoegen");
+                    }
+                    break;
+                case "Vriend verwijderen":
+                    if (DeleteFriend())
+                    {
+                        DatabaseOperations.DeleteFriend(person.Id, (int)(int)global.currentUserId);
+                        MessageBox.Show(person.FullName + "is uit je vrienden verwijderd.", "Vriend verwijderd", MessageBoxButton.OK);
+                        btnRelatieStatus.Content = "Vriend toevoegen";
+                    }
+                    else
+                    {
+                        MessageBox.Show(person.FullName + " is niet verwijderd als vriend.", "Toch niet verwijderen");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void btnProfielWijzigen_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            ProfielWijzigen ProfielWijzigen = new ProfielWijzigen();
+            ProfielWijzigen.Show();
+            this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
         }
     }
 }

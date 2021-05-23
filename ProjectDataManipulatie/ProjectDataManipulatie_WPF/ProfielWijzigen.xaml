@@ -13,10 +13,10 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="ProfielWijzigen"  Height="500" Width="800" Loaded="Window_Loaded">
+        Title="ProfielWijzigen"  Height="600" Width="800" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
+            <RowDefinition Height="5.5*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -24,12 +24,16 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <Label x:Name="lblPersonen" Margin="5" Content="Atleten"/>
-            <Label x:Name="lblAdmin" Content="Admin" Margin="5"/>
+            <Button x:Name="lblPersonen" Margin="5" Content="Atleten"/>
+            <Button x:Name="lblAdmin" Content="Admin" Margin="5"/>
         </StackPanel>
-        <StackPanel Grid.Row="2">
+        <!--<StackPanel Grid.Row="2">
             <Label x:Name="lblProfiel" Content="Profile" Margin="5" MouseDown="lblProfiel_MouseDown"/>
             <Label x:Name="lblLogOut" Content="Log-Out" Margin="5" MouseDown="lblLogOut_MouseDown"/>
+        </StackPanel>-->
+        <StackPanel Grid.Row="2">
+            <Button x:Name="btnProfiel" Content="Profile" Margin="5" Click="btnProfiel_Click"/>
+            <Button x:Name="btnLogOut" Content="Log-Out" Margin="5" Click="btnLogOut_Click"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
             <TextBox x:Name="txtEmail"

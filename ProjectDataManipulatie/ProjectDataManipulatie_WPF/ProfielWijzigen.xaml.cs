@@ -1,4 +1,5 @@
 ﻿using ProjectDataManipulatie_DAL;
+using dto = ProjectDataManipulatie_DAL.dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,14 +33,6 @@ namespace ProjectDataManipulatie_WPF
             m.Show();
             this.Close();
         }
-        private void lblProfiel_MouseDown()
-        {
-
-        }
-        private void lblProfiel_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            openProfile();
-        }
         public void openProfile()
         {
             this.Hide();
@@ -58,7 +51,7 @@ namespace ProjectDataManipulatie_WPF
         {
             if (!string.IsNullOrEmpty(txtEmail.Text) && dprGeboorteDatum.SelectedDate!=null)
             {
-                DatabaseOperations.UpdatePerson((int)global.currentUserId, txtEmail.Text, (DateTime)dprGeboorteDatum.SelectedDate);
+                DatabaseOperations.UpdateProfile((int)global.currentUserId, txtEmail.Text, (DateTime)dprGeboorteDatum.SelectedDate);
                 MessageBox.Show("Je profiel is aangepast", "Gelukt", MessageBoxButton.OK);
                 openProfile();
             }
@@ -66,6 +59,19 @@ namespace ProjectDataManipulatie_WPF
             {
                 MessageBox.Show("Je moet een geldig email adres en geboortedatum ingeven.", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void btnProfiel_Click(object sender, RoutedEventArgs e)
+        {
+            openProfile();
+        }
+
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            MainWindow m = new MainWindow();
+            m.Show();
+            this.Close();
         }
     }
 }

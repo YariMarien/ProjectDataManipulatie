@@ -41,17 +41,24 @@ namespace ProjectDataManipulatie_WPF
                 geboorteDatum = (DateTime)dpGeboortedatum.SelectedDate,
                 geslacht = GetSelectedGeslacht()
             };
-            if (DatabaseOperations.CreatePerson(p))
+            if (p.IsGeldig())
             {
-                MessageBox.Show("Je account is aangemaakt.", "Gelukt", MessageBoxButton.OK);
-                this.Hide();
-                MainWindow m = new MainWindow(txtEmail.Text, txtPassword.Password);
-                m.Show();
-                this.Close();
+                if (DatabaseOperations.CreatePerson(p))
+                {
+                    MessageBox.Show("Je account is aangemaakt.", "Gelukt", MessageBoxButton.OK);
+                    this.Hide();
+                    MainWindow m = new MainWindow(txtEmail.Text, txtPassword.Password);
+                    m.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Er bestaat al een account met dit mail adres.", "Niet gelukt", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
-                MessageBox.Show("Er bestaat al een account met dit mail adres.", "Niet gelukt", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(p.Error, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public string GetSelectedGeslacht()
@@ -72,6 +79,11 @@ namespace ProjectDataManipulatie_WPF
             this.Hide();
             m.Show();
             this.Close();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            dpGeboortedatum.SelectedDate = DateTime.Now;
         }
     }
 }

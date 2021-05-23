@@ -1,5 +1,6 @@
 ﻿//using ProjectDataManipulatie_DAL;
 using ProjectDataManipulatie_DAL;
+using dto = ProjectDataManipulatie_DAL.dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,14 +27,6 @@ namespace ProjectDataManipulatie_WPF
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
-
-        private void lblLogOut_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Hide();
-            MainWindow m = new MainWindow();
-            m.Show();
-            this.Close();
-        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
         }
@@ -41,7 +34,9 @@ namespace ProjectDataManipulatie_WPF
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //Get people
-            dgPersonen.ItemsSource = DatabaseOperations.GetAllPersons();
+            var a = DatabaseOperations.SearchPerson();
+            //var b = a[0].PersonenClubs[0];
+            dgPersonen.ItemsSource = a;
 
             //Get provinces
             cmbProvincie.ItemsSource = DatabaseOperations.GetAllProvinces();
@@ -188,11 +183,12 @@ namespace ProjectDataManipulatie_WPF
         private void cmbProvincie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //ZoekPersonen();
-            Search();
-            if (cmbProvincie.SelectedItem!=null)
-            {
+            //if (cmbProvincie.SelectedItem!=null)
+            //{
                 FillClubs();
-            }
+
+            Search();
+            //}
         }
 
         private void cmbClub_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -226,7 +222,15 @@ namespace ProjectDataManipulatie_WPF
             }
         }
 
-        private void lblProfiel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void dgPersonen_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.Hide();
+            Profiel p = new Profiel((dgPersonen.SelectedItem as dto.Persoon).Id);
+            p.Show();
+            this.Close();
+        }
+
+        private void btnProfiel_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
             Profiel p = new Profiel();
@@ -234,11 +238,11 @@ namespace ProjectDataManipulatie_WPF
             this.Close();
         }
 
-        private void dgPersonen_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
-            Profiel p = new Profiel((dgPersonen.SelectedItem as Persoon).Id);
-            p.Show();
+            MainWindow m = new MainWindow();
+            m.Show();
             this.Close();
         }
     }

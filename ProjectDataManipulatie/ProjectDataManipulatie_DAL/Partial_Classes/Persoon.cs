@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace ProjectDataManipulatie_DAL
 {
-    public partial class Persoon
+    public partial class Persoon : BasisKlasse
     {
         public string FullName
         {
@@ -19,14 +17,44 @@ namespace ProjectDataManipulatie_DAL
         {
             get
             {
-                return this.GetCurrentClub();
+                if (this.PersonenClubs != null)
+                {
+                    return this.PersonenClubs.OrderByDescending(x => x.begin).First().Club;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
-        public string CurrentNumber
+        public override string this[string columnName]
         {
             get
             {
-                return this.GetCurrentNumber();
+                if (columnName == nameof(email))
+                {
+                    if (string.IsNullOrWhiteSpace(email))
+                    {
+                        return "Email is verplicht in te vullen.";
+                    }
+                    else
+                    {
+                        try
+                        {
+                            MailAddress m = new MailAddress(email);
+                        }
+                        catch (Exception)
+                        {
+                            return "Ongeldig email adres.";
+                        }
+                    }
+                }
+
+                if (columnName == nameof(geboorteDatum) && geboorteDatum.Year > (DateTime.Now.Year - 6))
+                {
+                    return "Je moet minstens 6 jaar oud zijn.";
+                }
+                return "";
             }
         }
     }

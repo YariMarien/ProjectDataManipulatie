@@ -53,10 +53,12 @@
     <Compile Include="Categorie.cs">
       <DependentUpon>ModelAtletiekInfo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Classes\BasisKlasse.cs" />
     <Compile Include="Club.cs">
       <DependentUpon>ModelAtletiekInfo.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseOperations.cs" />
+    <Compile Include="dto\Persoon.cs" />
     <Compile Include="Enums\RelatieStatus.cs" />
     <Compile Include="ModelAtletiekInfo.Context.cs">
       <AutoGen>True</AutoGen>

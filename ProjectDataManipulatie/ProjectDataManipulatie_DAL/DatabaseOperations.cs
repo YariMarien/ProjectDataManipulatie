@@ -4,16 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace ProjectDataManipulatie_DAL
 {
     public static class DatabaseOperations
     {
-        public static List<Persoon> GetAllPersons()
+        public static List<dto.Persoon> GetAllPersons()
         {
             using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
             {
-                return AtletiekinfoContext.tblPersoon.Where(p=>p.PersonenClubs.Count>0).ToList();
+                //return AtletiekinfoContext.tblPersoon.Where(p=>p.PersonenClubs.Count>0).ToList();
+                return AtletiekinfoContext.tblPersoon.Include(x => x.PersonenClubs).Where(p => p.PersonenClubs.Count > 0).Select(
+                    x => new dto.Persoon
+                    {
+                        Id = x.Id,
+                        fullName = x.voornaam + " " + x.naam,
+                        clubNaam = x.PersonenClubs.OrderByDescending(y => y.begin).FirstOrDefault().Club.naam,
+                        borstNummer = x.PersonenClubs.OrderByDescending(y => y.begin).FirstOrDefault().borstNummer,
+                        geslacht = x.geslacht
+                    }).ToList();
             }
         }
         public static List<Provincie> GetAllProvinces()
@@ -89,14 +99,15 @@ namespace ProjectDataManipulatie_DAL
                 }
             }
         }
-        public static List<Persoon> SearchPerson(bool? vlaanderen, bool? wallonie, string zoekData, int? provincieId, int? clubId)
+        public static List<dto.Persoon> SearchPerson(bool? vlaanderen = true, bool? wallonie = true, string zoekData = "", int? provincieId = null, int? clubId = null)
         {
             using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
             {
                 var Personen = AtletiekinfoContext.tblPersoon.AsQueryable();
+                //.Include(x => x.PersonenClubs)
 
                 //Only add athletes
-                Personen = Personen.Where(p=>p.PersonenClubs.Count>0);
+                Personen = Personen.Include(x => x.PersonenClubs).Where(p=>p.PersonenClubs.Count>0);
 
                 ////Add search data to query
                 if (!string.IsNullOrEmpty(zoekData))
@@ -144,18 +155,42 @@ namespace ProjectDataManipulatie_DAL
                     );
                 }
 
-                return Personen.ToList();
+                //return Personen.Select().ToList();
+                return Personen.Select(
+                    x => new dto.Persoon
+                    {
+                        Id = x.Id,
+                        fullName = x.voornaam + " " + x.naam,
+                        clubNaam = x.PersonenClubs.OrderByDescending(y => y.begin).FirstOrDefault().Club.naam,
+                        borstNummer = x.PersonenClubs.OrderByDescending(y => y.begin).FirstOrDefault().borstNummer,
+                        geslacht = x.geslacht
+                    }).ToList();
             }
         }
 
+        /// <summary>
+        /// Get person by person id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Person object</returns>
         public static Persoon GetPersonById(int id)
         {
             using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
             {
-                return AtletiekinfoContext.tblPersoon.Where(p=> p.Id == id).First();
+                return AtletiekinfoContext.tblPersoon.Include(x => 
+                x.PersonenClubs).Include(x=>
+                x.PersonenClubs.Select(y=>y.Club))
+                .Where(p => p.Id == id)
+                .First();
             }
         }
 
+        /// <summary>
+        /// Check if email and password are correct
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns>True or False (bool)</returns>
         public static bool CheckLogin(string email, string password)
         {
             using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
@@ -171,6 +206,12 @@ namespace ProjectDataManipulatie_DAL
                 }
             }
         }
+
+        /// <summary>
+        /// Get person id by email adress
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>Person id as Int</returns>
         public static int GetPersonIdByEmail(string email)
         {
             using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
@@ -179,6 +220,12 @@ namespace ProjectDataManipulatie_DAL
                 return person.Id;
             }
         }
+
+        /// <summary>
+        /// Gets all unaccepted relation requests by person id
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns>List of Relatie objects</returns>
         public static List<Relatie> GetUnacceptedRelationRequests(int personId)
         {
             using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
@@ -187,6 +234,12 @@ namespace ProjectDataManipulatie_DAL
                 return requests.ToList();
             }
         }
+
+        /// <summary>
+        /// Gets relation information by relation id
+        /// </summary>
+        /// <param name="relationId"></param>
+        /// <returns>Reatie object</returns>
         public static Relatie GetRelationById(int relationId)
         {
             using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
@@ -194,6 +247,14 @@ namespace ProjectDataManipulatie_DAL
                 return AtletiekinfoContext.tblRelaties.Where(x=>x.Id == relationId).First();
             }
         }
+
+        /// <summary>
+        /// Gets sender of relation request by relation id
+        /// </summary>
+        /// <param name="relationId"></param>
+        /// <returns>
+        /// Persoon object
+        /// </returns>
         public static Persoon GetRelationRequestSenderByRelationId(int relationId)
         {
             using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
@@ -201,6 +262,12 @@ namespace ProjectDataManipulatie_DAL
                 return AtletiekinfoContext.tblRelaties.Where(x => x.Id == relationId).First().Persoon1;
             }
         }
+
+        /// <summary>
+        /// Get receiver of relation request by relation id
+        /// </summary>
+        /// <param name="relationId"></param>
+        /// <returns>Persoon object</returns>
         public static Persoon GetRelationRequestReceiverByRelationId(int relationId)
         {
             using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
@@ -208,6 +275,13 @@ namespace ProjectDataManipulatie_DAL
                 return AtletiekinfoContext.tblRelaties.Where(x => x.Id == relationId).First().Persoon2;
             }
         }
+
+        /// <summary>
+        /// Gets relation status between to persons
+        /// </summary>
+        /// <param name="currentUser"></param>
+        /// <param name="personId"></param>
+        /// <returns>RelatieStatus enumm</returns>
         public static RelatieStatus GetRelationStatus(int currentUser, int personId)
         {
             using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
@@ -235,6 +309,11 @@ namespace ProjectDataManipulatie_DAL
             }
         }
 
+        /// <summary>
+        /// Get all accepted relations by person ID
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns>List of persoon</returns>
         public static List<Persoon> GetFriends(int personId)
         {
             using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
@@ -256,53 +335,13 @@ namespace ProjectDataManipulatie_DAL
             }
         }
 
-        /// <summary>
-        /// Get persons current club
-        /// </summary>
-        /// <param name="person"></param>
-        /// <returns>Current club as Club</returns>
-        public static Club GetCurrentClub(this Persoon person)
-        {
-            var id = person.Id;
-            using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
-            {
-                var item = AtletiekinfoContext.tblPersoon.Where(p => p.Id == id && p.PersonenClubs.Count > 0).FirstOrDefault();
-                if (item != null)
-                {
-                    return item.PersonenClubs.OrderByDescending(x => x.begin).FirstOrDefault().Club;
-                }
-                else
-                {
-                    return new Club()
-                    {
-                        naam = "Deze persoon is geen atleet."
-                    };
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get persons current chest number
-        /// </summary>
-        /// <param name="person"></param>
-        /// <returns>Current chest number as string</returns>
-        public static string GetCurrentNumber(this Persoon person)
-        {
-            var id = person.Id;
-            using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
-            {
-                var nmbr = AtletiekinfoContext.tblPersoon.Where(p => p.Id == id).First().PersonenClubs.OrderByDescending(x => x.begin).FirstOrDefault().borstNummer;
-                if (nmbr != null)
-                {
-                    return nmbr;
-                }
-                else
-                    return null;
-            }
-        }
-
         //CREATE
 
+        /// <summary>
+        ///Inserts person into database
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
         public static bool CreatePerson(Persoon person)
         {
             using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
@@ -323,7 +362,12 @@ namespace ProjectDataManipulatie_DAL
             }
         }
 
-        public static void SendRelationShipRequest(int personId1, int personId2)
+        /// <summary>
+        /// Creates unaccepted relation in database.
+        /// </summary>
+        /// <param name="personId1"></param>
+        /// <param name="personId2"></param>
+        public static void SendRelationRequest(int personId1, int personId2)
         {
             using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
             {
@@ -337,7 +381,13 @@ namespace ProjectDataManipulatie_DAL
 
         //UPDATE
 
-        public static void UpdatePerson(int idToUpdate, string email, DateTime geboorteDatum)
+        /// <summary>
+        /// Update user person 
+        /// </summary>
+        /// <param name="idToUpdate"></param>
+        /// <param name="email"></param>
+        /// <param name="geboorteDatum"></param>
+        public static void UpdateProfile(int idToUpdate, string email, DateTime geboorteDatum)
         {
             using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
             {
@@ -348,7 +398,26 @@ namespace ProjectDataManipulatie_DAL
             }
         }
 
-        public static void AcceptRelationShipRequest(int personId1, int personId2)
+        /// <summary>
+        /// Update person data in database
+        /// </summary>
+        /// <param name="person"></param>
+        public static void UpdatePerson(Persoon person)
+        {
+            using (AtletiekInfoEntities AtletiekinfoContext = new AtletiekInfoEntities())
+            {
+                Persoon personToUpdate = AtletiekinfoContext.tblPersoon.Where(p => p.Id == person.Id).First();
+                personToUpdate = person;
+                AtletiekinfoContext.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Set relation request to accepted in database
+        /// </summary>
+        /// <param name="personId1"></param>
+        /// <param name="personId2"></param>
+        public static void AcceptRelationRequest(int personId1, int personId2)
         {
             using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
             {
@@ -360,6 +429,30 @@ namespace ProjectDataManipulatie_DAL
 
         //REMOVE
 
+        /// <summary>
+        /// Remove person and related data from database
+        /// </summary>
+        /// <param name="personId"></param>
+        public static void DeletePersonById(int personId)
+        {
+            using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
+            {
+                //Get all relations related to selected person
+                var personssRelations = AtletiekInfoContext.tblRelaties.Where(x => x.Persoon1.Id == personId || x.Persoon2.Id == personId).ToList();
+                //Remove all relations in db
+                personssRelations.ForEach(x=> AtletiekInfoContext.tblRelaties.Remove(x));
+                //Remove person from db
+                AtletiekInfoContext.tblPersoon.Remove(AtletiekInfoContext.tblPersoon.Where(p=>p.Id == personId).First());
+                //Save changes
+                AtletiekInfoContext.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Remove relation from database
+        /// </summary>
+        /// <param name="personId1"></param>
+        /// <param name="personId2"></param>
         public static void DeleteFriend(int personId1, int personId2)
         {
             using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
@@ -369,7 +462,12 @@ namespace ProjectDataManipulatie_DAL
             }
         }
 
-        public static void CancelRelationShipRequest(int personId1, int personId2)
+        /// <summary>
+        /// Remove send relation request from database
+        /// </summary>
+        /// <param name="personId1"></param>
+        /// <param name="personId2"></param>
+        public static void CancelRelationRequest(int personId1, int personId2)
         {
             using (AtletiekInfoEntities AtletiekInfoContext = new AtletiekInfoEntities())
             {

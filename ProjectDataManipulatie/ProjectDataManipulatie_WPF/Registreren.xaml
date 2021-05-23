@@ -13,7 +13,7 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Registreren" Height="500" Width="800" Closing="Window_Closing">
+        Title="Registreren" Height="500" Width="800" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -33,7 +33,7 @@
                 materialDesign:HintAssist.HelperText="Kies een sterk wachtwoord!" />
             <!--<TextBox x:Name="txtPassword" Margin="5" materialDesign:HintAssist.Hint="Wachtwoord" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>-->
             <Label Content="Geslacht:"  Margin="5, 15, 5, 5"/>
-            <RadioButton  x:Name="rdbMan" Content="Man" GroupName="gGeslacht" Margin="5, 0, 5, 5"
+            <RadioButton IsChecked="True"  x:Name="rdbMan" Content="Man" GroupName="gGeslacht" Margin="5, 0, 5, 5"
                     Style="{StaticResource MaterialDesignRadioButton}"
                     Tag="True">
             </RadioButton>

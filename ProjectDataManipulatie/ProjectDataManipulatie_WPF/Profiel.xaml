@@ -13,10 +13,10 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Profiel" Height="500" Width="800" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="Profiel" Height="600" Width="800" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
+            <RowDefinition Height="5.5*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -25,12 +25,12 @@
             <ColumnDefinition x:Name="colLoggedIn" Width="200px"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <Label x:Name="lblPersonen" Margin="5" Content="Personen" MouseDown="lblPersonen_MouseDown"/>
-            <Label x:Name="lblAdmin" Content="Admin" Margin="5"/>
+            <Button x:Name="btnPersonen" Margin="5" Content="Personen" Click="btnPersonen_Click"/>
+            <Button x:Name="btnAdmin" Content="Admin" Margin="5"/>
         </StackPanel>
         <StackPanel Grid.Row="2">
-            <Label x:Name="lblProfiel" Content="Profile" Margin="5" MouseDown="lblProfiel_MouseDown"/>
-            <Label x:Name="lblLogOut" Content="Log-Out" Margin="5" MouseDown="lblLogOut_MouseDown"/>
+            <Button x:Name="btnProfiel" Content="Profile" Margin="5" Click="btnProfiel_Click"/>
+            <Button x:Name="btnLogOut" Content="Log-Out" Margin="5" Click="btnLogOut_Click"/>
         </StackPanel>
         <StackPanel x:Name="spGegevens" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
             <Label x:Name="lblNaam"  Margin="5" Content="Naam"/>
@@ -51,13 +51,13 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naam" Binding="{Binding FullName}" />
                 <DataGridTextColumn Header="Geslacht" Binding="{Binding geslacht}" />
-                <DataGridTextColumn Header="Club" Binding="{Binding CurrentClub.naam}" />
-                <DataGridTextColumn Header="Borstnummer" Binding="{Binding CurrentNumber}" />
+                <!--<DataGridTextColumn Header="Club" Binding="{Binding CurrentClub.naam}" />
+                <DataGridTextColumn Header="Borstnummer" Binding="{Binding CurrentNumber}" />-->
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Column="1" Grid.Row="1" >
-            <Label x:Name="lblRelatieStatus" Margin="5" Content="Vriend toevoegen" MouseDown="lblRelatieStatus_MouseDown"/>
-            <Label x:Name="lblProfielWijzigen" Margin="5" Content="Profiel wijzigen" MouseDown="lblProfielWijzigen_MouseDown"/>
+            <Button x:Name="btnRelatieStatus" Margin="5" Content="Vriend toevoegen" Click="btnRelatieStatus_Click"/>
+            <Button x:Name="btnProfielWijzigen" Margin="5" Content="Profiel wijzigen" Click="btnProfielWijzigen_Click"/>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="2">
             <Label x:Name="lblGegevens" Content="Gegevens" MouseDown="lblGegevens_MouseDown"/>
