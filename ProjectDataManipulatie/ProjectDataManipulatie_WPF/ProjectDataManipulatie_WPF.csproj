@@ -78,9 +78,6 @@
     <Compile Include="Registreren.xaml.cs">
       <DependentUpon>Registreren.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TEST.xaml.cs">
-      <DependentUpon>TEST.xaml</DependentUpon>
-    </Compile>
     <Page Include="ResourceDictionaries\LabelDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -110,10 +107,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Registreren.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TEST.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

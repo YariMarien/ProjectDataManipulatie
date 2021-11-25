@@ -120,6 +120,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DatabaseScripts\dbAtletiekInfo.sql" />
     <Content Include="ModelAtletiekInfo.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelAtletiekInfo.edmx</DependentUpon>
